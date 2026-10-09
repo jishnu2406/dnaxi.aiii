@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DNAX — Spatial Intelligence for the Built World</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#F4F3EF;--tx:#111;--mu:#6B6B67;--ln:#D8D7D2;--tc:#EDECE7;--ac:#B4452B;--dk:#121212;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121212;--tx:#EDECE7;--mu:#9A9992;--ln:#2E2E2B;--tc:#1A1A18;--ac:#E0704F;--dk:#0B0B0B}}
+:root[data-theme="dark"]{--bg:#121212;--tx:#EDECE7;--mu:#9A9992;--ln:#2E2E2B;--tc:#1A1A18;--ac:#E0704F;--dk:#0B0B0B}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(60px + env(safe-area-inset-top,0px));scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.m{font-family:"Geist Mono",ui-monospace,Menlo,monospace;font-size:12.5px}
+.w{max-width:1120px;margin:0 auto;padding:0 24px}
+a{color:inherit}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--ln)}
+nav .w{display:flex;align-items:center;gap:28px;height:56px}
+nav b{font-weight:600;letter-spacing:.14em;margin-right:auto}
+nav a{text-decoration:none;color:var(--mu);font-size:14px}nav a:hover{color:var(--tx)}
+.btn{display:inline-block;padding:10px 18px;border:1px solid var(--tx);background:var(--tx);color:var(--bg)!important;font:500 14px Inter,sans-serif;text-decoration:none;cursor:pointer}
+.btn.o{background:none;color:var(--tx)!important}
+.btn:focus-visible,.r:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+section{padding:88px 0;border-bottom:1px solid var(--ln)}
+h1{font-size:clamp(40px,6.4vw,76px);line-height:1.02;letter-spacing:-.035em;font-weight:500;margin:18px 0 22px}
+h2{font-size:clamp(28px,3.6vw,42px);line-height:1.1;letter-spacing:-.025em;font-weight:500;margin:0 0 16px;max-width:18em}
+p{max-width:34em;color:var(--mu);margin:0 0 16px}
+.mu{color:var(--mu)}
+.hero{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center}
+.pipe{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:36px;color:var(--mu)}
+.pipe span:not(:last-child)::after{content:"→";margin-left:18px}
+.pl{background:var(--tc);border:1px solid var(--ln);padding:14px}
+.pl svg{width:100%;height:auto;display:block}
+.r{fill:transparent;stroke:var(--tx);stroke-width:2;cursor:pointer;transition:fill .3s}
+.r.on{fill:color-mix(in srgb,var(--tx) 10%,transparent)}
+.r.bad{fill:color-mix(in srgb,var(--ac) 24%,transparent);stroke:var(--ac)}
+.t{font:7.5px "Geist Mono",monospace;fill:var(--mu);text-anchor:middle;pointer-events:none}
+.g{display:none}.gv .g{display:block}
+.g line{stroke:var(--ac);stroke-width:1.2}.g circle{fill:var(--bg);stroke:var(--ac);stroke-width:1.5}
+.st{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ln);margin-top:14px}
+.st div{padding:12px 8px 0 0}.st b{display:block;font:500 26px "Geist Mono",monospace;letter-spacing:-.02em}
+.st span{font-size:12px;color:var(--mu)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid var(--ln);border-left:1px solid var(--ln);margin-top:36px}
+.grid>div{padding:20px;border-right:1px solid var(--ln);border-bottom:1px solid var(--ln)}
+.grid h3{font-size:15px;font-weight:600;margin:0 0 6px}.grid p{font-size:14px;margin:0}
+.flow{counter-reset:s;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.flow>div::before{counter-increment:s;content:counter(s,decimal-leading-zero);font:12px "Geist Mono",monospace;color:var(--ac);display:block;margin-bottom:10px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+pre{margin:0;background:var(--dk);color:#EDECE7;padding:20px;overflow-x:auto;font:12.5px/1.6 "Geist Mono",ui-monospace,monospace}
+ul.q{list-style:none;padding:0;margin:20px 0 0}ul.q li{padding:10px 0;border-top:1px solid var(--ln);font-size:14px}
+.demo{display:grid;grid-template-columns:1.25fr 1fr;gap:32px;margin-top:32px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tab{background:none;border:1px solid var(--ln);color:var(--mu);padding:6px 12px;font:12.5px "Geist Mono",monospace;cursor:pointer}
+.tab[aria-pressed=true]{border-color:var(--tx);color:var(--tx)}
+label{display:block;font-size:14px;padding:4px 0}label.d{color:var(--mu);opacity:.6}
+#log{min-height:96px;margin:14px 0;color:var(--mu);white-space:pre-wrap}
+.sc{display:grid;grid-template-columns:150px 1fr 38px;gap:8px;align-items:center;font-size:13px;margin:7px 0}
+.sc i{display:block;height:4px;background:var(--ln)}.sc i::after{content:"";display:block;height:100%;width:var(--v);background:var(--tx)}
+.iss{display:block;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--ln);padding:11px 0;color:var(--tx);font:14px/1.4 Inter,sans-serif;cursor:pointer}
+.iss b{font:500 11.5px "Geist Mono",monospace;color:var(--ac);margin-right:8px}
+.iss[aria-pressed=true]{background:color-mix(in srgb,var(--ac) 10%,transparent)}
+#dt{min-height:44px;margin-top:10px;font-size:13px}
+.sr{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 40px}
+.sr div{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--ln)}
+.sr i{font-style:normal;color:var(--mu)}
+footer{padding:40px 0;color:var(--mu);font-size:13px}
+@media(max-width:820px){.hero,.two,.demo{grid-template-columns:1fr}nav .h{display:none}section{padding:60px 0}.sc{grid-template-columns:110px 1fr 36px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.r{transition:none}}
+</style></head><body>
+<nav><div class="w"><b>DNAX</b><a class="h" href="#understand">Product</a><a class="h" href="#technology">Technology</a><a class="h" href="#claude">Claude</a><a class="h" href="#demo">Demo</a><a class="btn" href="#demo">Open demo</a></div></nav>
+
+<section><div class="w hero"><div>
+<span class="m mu">Spatial intelligence · Private beta</span>
+<h1>Intelligence for the built world.</h1>
+<p>DNAX turns architectural drawings, specifications and project data into a spatial graph that AI can query and reason about.</p>
+<a class="btn" href="#demo">Explore the demo</a> <a class="btn o" href="#technology">View technology</a>
+<div class="pipe m"><span>Plan</span><span>Understand</span><span>Reason</span><span>Build</span></div></div>
+<div><div class="pl" id="hp"></div>
+<div class="st"><div><b id="s1">0</b><span>spaces identified</span></div><div><b id="s2">0</b><span>openings detected</span></div><div><b id="s3">0</b><span>adjacency links</span></div><div><b id="s4">0</b><span>issues flagged</span></div></div>
+<div class="m mu" id="hs" style="margin-top:10px">Sample plan · curated demo data</div></div></div></section>
+
+<section id="understand"><div class="w">
+<h2>Architecture, readable by machines.</h2>
+<p>Drawings hold far more than lines. DNAX extracts the structure and keeps it queryable.</p>
+<div class="grid">
+<div><h3>Geometry</h3><p>Walls, rooms, doors, windows, dimensions, structural elements.</p></div>
+<div><h3>Contents</h3><p>Furniture, fixtures, zones and circulation paths.</p></div>
+<div><h3>Relationships</h3><p>Adjacency, access, daylight exposure and area per space.</p></div>
+<div><h3>Documents</h3><p>Briefs, specifications and standards linked to the spaces they govern.</p></div></div></div></section>
+
+<section id="technology"><div class="w">
+<h2>System architecture</h2>
+<p>Computer vision understands the geometry. Claude reasons about the project. Deterministic checks validate the result.</p>
+<div class="grid flow">
+<div><h3>Ingest</h3><p>PDF, DWG, IFC, images, briefs, specifications.</p></div>
+<div><h3>Detect</h3><p>CV model: wall mask, openings, room segmentation, object classes.</p></div>
+<div><h3>Spatial graph</h3><p>Shapely and NetworkX build rooms, edges and metrics.</p></div>
+<div><h3>Retrieve</h3><p>Project documents and standards via pgvector.</p></div>
+<div><h3>Reason</h3><p>Claude API receives graph, brief and context.</p></div>
+<div><h3>Validate</h3><p>Schema and rule checks before anything reaches the user.</p></div></div>
+<div class="sr" style="margin-top:40px">
+<div class="m"><span>Plan parser</span><i>Prototype</i></div><div class="m"><span>Spatial graph engine</span><i>Prototype</i></div>
+<div class="m"><span>Claude reasoning layer</span><i>Integration in progress</i></div><div class="m"><span>IFC parser</span><i>Planned</i></div></div>
+</div></section>
+
+<section id="claude"><div class="w two"><div>
+<h2>Reasoning layer, not a chat box.</h2>
+<p>DNAX is designed around the Claude API as its reasoning layer across spatial data, specifications and requirements, returning structured output that is validated before use.</p>
+<ul class="q"><li>Does the current design satisfy the client's brief?</li><li>Compare Revision 07 with Revision 06. Which rooms changed?</li><li>Find conflicts between the drawing and specification.</li><li>Generate a room-by-room design brief.</li></ul></div>
+<pre>{
+  "project_summary": {},
+  "spaces": [{"id":"living","area_m2":18.4}],
+  "issues": [{"severity":"critical",
+              "space":"bedroom"}],
+  "recommendations": [],
+  "brief_compliance": {},
+  "confidence": {}
+}</pre></div></section>
+
+<section id="demo"><div class="w">
+<h2>Interactive demo</h2>
+<p>Sample project with curated output. It illustrates the workflow and is not a live model run.</p>
+<div class="demo"><div>
+<div class="bar"><button class="tab" id="lp" aria-pressed="true">Plan</button><button class="tab" id="lg" aria-pressed="false">Spatial graph</button><span class="m mu">Select a room</span></div>
+<div class="pl" id="dp"></div><div id="dt" class="m mu"></div></div>
+<div><fieldset style="border:0;padding:0;margin:0"><legend class="m mu" style="padding:0 0 6px">Sample project</legend>
+<label><input type="radio" name="p" checked> Residence, Bangalore</label>
+<label class="d"><input type="radio" name="p" disabled> Office, Singapore (in preparation)</label>
+<label class="d"><input type="radio" name="p" disabled> Retail, Bengaluru (in preparation)</label></fieldset>
+<button class="btn" id="go" style="margin-top:12px">Analyse project</button>
+<div id="log" class="m" aria-live="polite"></div>
+<div id="res" hidden><h3 style="margin:0 0 10px;font-size:15px">Design review · sample</h3><div id="sc"></div>
+<div id="is" style="margin-top:14px"></div></div></div></div></div></section>
+
+<section id="access"><div class="w two"><div>
+<h2>Request early access.</h2>
+<p>DNAX is in private beta. We are onboarding a small number of design teams.</p>
+<a class="btn" href="mailto:hello@dnax.ai?subject=DNAX%20early%20access">Request early access</a></div>
+<div class="m mu">Build v0.1 · Private beta<br>No pricing yet. No customer claims. Sample data is labelled as sample data.</div></div></section>
+<footer><div class="w m">© 2026 DNAX.ai · Spatial intelligence for the built world</div></footer>
+
+<script>
+const $=i=>document.getElementById(i),R={liv:[10,10,170,120,'Living Room'],din:[180,10,100,120,'Dining'],kit:[280,10,110,120,'Kitchen'],ent:[10,130,60,120,'Entry'],bed:[70,130,120,120,'Bedroom'],bat:[190,130,70,120,'Bath'],stu:[260,130,130,120,'Study']},
+E=[['liv','din'],['din','kit'],['liv','ent'],['liv','bed'],['ent','bed'],['bed','bat'],['bat','stu'],['din','bat'],['kit','stu']],
+W=[[40,10,120,10],[300,10,370,10],[390,40,390,100],[300,250,370,250]],
+D=[[10,180,10,215],[20,130,55,130],[70,180,70,215],[190,170,190,205],[260,170,260,205],[180,50,180,90],[280,50,280,90],[100,130,150,130]],
+I=[{k:'bed',s:'critical',t:'Bedroom and bath door swings overlap at the shared wall.'},{k:'stu',s:'critical',t:'Brief asks for 2 bedrooms; plan provides 1 bedroom and a study.'},{k:'kit',s:'warning',t:'Kitchen to dining passage is 0.8 m; accessibility minimum is 0.9 m.'},{k:'liv',s:'warning',t:'Specification lists a west window (W-04) that the plan does not show.'}],
+S=[['Spatial planning',92],['Circulation',87],['Accessibility',91],['Lighting strategy',84],['Brief compliance',78],['Specification match',89]],
+C=k=>[R[k][0]+R[k][2]/2,R[k][1]+R[k][3]/2],A=k=>(R[k][2]*R[k][3]*.0009).toFixed(1),
+L=(a,b,c,d,s,w)=>`<line x1="${a}" y1="${b}" x2="${c}" y2="${d}" stroke="${s}" stroke-width="${w}"/>`;
+function plan(el){el.innerHTML=`<svg viewBox="0 0 400 260" role="img" aria-label="Sample apartment floor plan">`+
+Object.keys(R).map(k=>{const r=R[k],c=C(k);return`<rect class="r" tabindex="0" data-k="${k}" x="${r[0]}" y="${r[1]}" width="${r[2]}" height="${r[3]}"/><text class="t" x="${c[0]}" y="${c[1]-2}">${r[4]}</text><text class="t" x="${c[0]}" y="${c[1]+9}">${A(k)} m²</text>`}).join('')+
+D.map(d=>L(...d,'var(--tc)',5)).join('')+W.map(d=>L(...d,'var(--mu)',5)).join('')+
+`<g class="g">`+E.map(e=>L(...C(e[0]),...C(e[1]))).join('')+Object.keys(R).map(k=>`<circle cx="${C(k)[0]}" cy="${C(k)[1]}" r="4"/>`).join('')+`</g></svg>`;return el.firstChild}
+function seq(svg,out,done){const rs=[...svg.querySelectorAll('.r')];rs.forEach(r=>r.classList.remove('on'));let i=0;(function s(){if(i<rs.length){rs[i].classList.add('on');out&&out(++i,rs.length);setTimeout(s,420)}else done&&done()})()}
+const hs=plan($('hp'));
+function hero(){hs.classList.remove('gv');seq(hs,(i,n)=>{$('s1').textContent=i;$('s2').textContent=Math.round(i*(D.length+W.length)/n);$('s3').textContent=Math.round(i*E.length/n);$('s4').textContent=i==n?I.length:Math.floor(i/2)},()=>{hs.classList.add('gv');$('hs').textContent='Spatial model ready · sample data';setTimeout(()=>{$('hs').textContent='Sample plan · curated demo data';hero()},4500)})}
+hero();
+const ds=plan($('dp')),dt=$('dt');let done=0;
+const info=k=>{dt.textContent=`${R[k][4]} · ${A(k)} m² · connected: ${E.filter(e=>e.includes(k)).map(e=>R[e[0]==k?e[1]:e[0]][4]).join(', ')}`};
+ds.addEventListener('click',e=>{const k=e.target.dataset&&e.target.dataset.k;if(k)info(k)});
+ds.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.dataset.k)info(e.target.dataset.k)});
+function layer(g){ds.classList.toggle('gv',g);$('lp').setAttribute('aria-pressed',!g);$('lg').setAttribute('aria-pressed',g)}
+$('lp').onclick=()=>layer(0);$('lg').onclick=()=>layer(1);
+const sleep=t=>new Promise(r=>setTimeout(r,t));
+$('go').onclick=async()=>{const b=$('go'),lg=$('log');b.disabled=true;$('res').hidden=true;lg.textContent='';layer(0);
+const st=['Uploading drawing…','Detecting geometry…','Generating spatial graph…','Reading design brief…','Reasoning with Claude (sample output)…','Analysis complete.'];
+for(let i=0;i<st.length;i++){lg.textContent+=st[i]+'\n';if(i==1)seq(ds);if(i==2)layer(1);await sleep(i==1?3200:700)}
+$('sc').innerHTML=S.map(s=>`<div class="sc"><span>${s[0]}</span><i style="--v:${s[1]}%"></i><span class="m">${s[1]}%</span></div>`).join('');
+$('is').innerHTML=I.map((x,n)=>`<button class="iss" data-n="${n}" aria-pressed="false"><b>${x.s}</b>${x.t}</button>`).join('');
+$('res').hidden=false;b.disabled=false;layer(0)};
+$('is').addEventListener('click',e=>{const b=e.target.closest('.iss');if(!b)return;const x=I[b.dataset.n];
+ds.querySelectorAll('.r').forEach(r=>r.classList.remove('bad'));ds.querySelector(`[data-k=${x.k}]`).classList.add('bad');
+$('is').querySelectorAll('.iss').forEach(i=>i.setAttribute('aria-pressed',i==b));dt.textContent=`${R[x.k][4]}: ${x.t}`});
+</script></body></html>
